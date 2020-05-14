@@ -18,7 +18,18 @@ AWESOMENESS = [
 def start_here():
     """Home page."""
 
-    return "<!doctype html><html>Hi! This is the home page.</html>"
+    return """
+    <!doctype html>
+    <html>
+        <head>
+            <title>Start Here</title>
+        </head>
+        <body>
+            <a href="/hello">Take me to the start</a>
+        </body>
+    </html>
+    """
+
 
 
 @app.route('/hello')
@@ -34,8 +45,17 @@ def say_hello():
       <body>
         <h1>Hi There!</h1>
         <form action="/greet">
-          What's your name? <input type="text" name="person">
+          What's your name? 
+          <input type="text" name="person">
+          What compliment would you like?<br>
+          <input type="radio" name="compliment" value="awesome">Awesome<br>
+          <input type="radio" name="compliment" value="terrific">Terrific<br>
+          <input type="radio" name="compliment" value="fantastic">Fantastic<br>
+          <input type="radio" name="compliment" value="neato">Neato<br>
+          <input type="radio" name="compliment" value="fantabulous">Fantabulous<br>
+          <input type="radio" name="compliment" value="wowza">Wowza<br>
           <input type="submit" value="Submit">
+          
         </form>
       </body>
     </html>
@@ -48,20 +68,39 @@ def greet_person():
 
     player = request.args.get("person")
 
-    compliment = choice(AWESOMENESS)
+    compliment = request.args.get("compliment")
 
-    return """
+    return f"""
     <!doctype html>
     <html>
       <head>
-        <title>A Compliment</title>
+        <title>Compliment</title>
       </head>
       <body>
-        Hi, {}! I think you're {}!
+        Hi, {player}! I think you're {compliment}!
       </body>
     </html>
-    """.format(player, compliment)
+    """
 
+@app.route('/diss')
+def diss_person():
+    """Dish out insults"""
+
+    player = request.args.get("person")
+
+    diss = request.args.get("diss")
+
+    return f"""
+    <!doctype html>
+    <html>
+      <head>
+        <title>Diss</title>
+      </head>
+      <body>
+        Hi, {player}! I think you're {diss}!
+      </body>
+    </html>
+    """
 
 if __name__ == '__main__':
     # debug=True gives us error messages in the browser and also "reloads"
